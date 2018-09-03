@@ -1,16 +1,15 @@
-wp2l2d
+[WIP] wp2l2d
+---
 
 wordpress rss feed converter to Line Today's custom XML format
 
-powered by [Actix-web]() [and]() [friends]().
+powered by [Actix-web](https://actix.rs) [and](https://github.com/rust-syndication/rss) [friends](https://github.com/tafia/quick-xml).
 
 
 how to build:
 ---
 
-wp2l2d will be built automatically in CI and its binary will be available [here]()
-
-to build it yourself, ensure you have rust and cargo installed (we recommend using rustup),
+To build it yourself, ensure you have rust and cargo installed (we recommend using rustup),
 then run:
 ```
 cargo install
@@ -33,5 +32,5 @@ Specify these configs as environment variables:
 
 and then run
 ```bash
-./wp2l2d"
+./wp2l2d
 ```
