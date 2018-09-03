@@ -1,0 +1,24 @@
+[package]
+name = "wp2l2d"
+version = "0.1.0"
+authors = ["Nurahmadie <nurahmadie@gmail.com>"]
+
+[lib]
+name = "wp2l2d"
+path = "src/lib.rs"
+
+[[bin]]
+name = "wp2l2d"
+path = "src/main.rs"
+
+
+[dependencies]
+actix-web = { version = "0.7", features = ["rust-tls"] }
+atom_syndication = "0.6.0"
+env_logger = "0.5"
+envy = "0.3"
+futures = "0.1"
+rss = "1.5"
+serde = "1.0"
+serde_derive = "1.0"
+quick-xml = "0.12.3"
