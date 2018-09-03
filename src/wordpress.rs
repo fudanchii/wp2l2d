@@ -1,7 +1,11 @@
-use actix_web::{client, client::ClientResponse, HttpMessage, Error};
-use rss::Channel;
+use actix_web::{
+    client,
+    client::ClientResponse,
+    error::{ErrorInternalServerError, ErrorPreconditionFailed},
+    Error, HttpMessage,
+};
 use futures::Future;
-use std::str::FromStr;
+use rss::Channel;
 
 pub struct Feed(Channel);
 
@@ -16,17 +20,16 @@ impl Feed {
 
         assert_valid_xml(&response)?;
 
-        let feed = response.body()
-            .from_err()
-            .wait()?;
+        let feed = response.body().wait()?;
 
-        let channel = Channel::read_from(feed.as_ref())?;
+        let channel =
+            Channel::read_from(feed.as_ref()).map_err(|err| ErrorInternalServerError(err))?;
 
         Ok(Feed(channel))
     }
 
     pub fn channel(&self) -> Channel {
-        self.0
+        self.0.clone()
     }
 }
 
@@ -34,6 +37,9 @@ fn assert_valid_xml(resp: &ClientResponse) -> Result<(), Error> {
     if resp.status() == 200 && resp.content_type() == "application/rss+xml" {
         return Ok(());
     }
-
-    Error(format!("response error ({}), response type: {}", resp.status(), resp.content_type()))
+    Err(ErrorPreconditionFailed(format!(
+        "unexpected response code {} and type {} from backend",
+        resp.status(),
+        resp.content_type()
+    )))
 }

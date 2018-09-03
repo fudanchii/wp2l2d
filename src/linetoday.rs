@@ -1,8 +1,8 @@
-use wordpress::Feed;
-use actix_web::{HttpResponse, Error};
+use actix_web::{Error, HttpResponse};
+use config::Config;
 use quick_xml::Writer;
 use std::io::Cursor;
-use config::Config;
+use wordpress::Feed;
 
 pub struct LineToday(Feed);
 

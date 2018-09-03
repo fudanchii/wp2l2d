@@ -2,8 +2,8 @@
 extern crate serde_derive;
 extern crate envy;
 
-extern crate futures;
 extern crate actix_web;
+extern crate futures;
 extern crate quick_xml;
 extern crate rss;
 
