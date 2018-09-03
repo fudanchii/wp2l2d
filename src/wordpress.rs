@@ -28,8 +28,8 @@ impl Feed {
         Ok(Feed(channel))
     }
 
-    pub fn channel(&self) -> Channel {
-        self.0.clone()
+    pub fn borrow_channel(&self) -> &Channel {
+        &self.0
     }
 }
 
