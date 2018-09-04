@@ -33,3 +33,9 @@ and then run
 ```bash
 ./wp2l2d
 ```
+
+demo
+---
+- https://secret-ocean-18432.herokuapp.com/ping
+- https://secret-ocean-18432.herokuapp.com/health
+- https://secret-ocean-18432.herokuapp.com/line.xml
