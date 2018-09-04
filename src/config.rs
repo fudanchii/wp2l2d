@@ -5,8 +5,9 @@ pub struct Config {
     pub wp2l2d_cert_file: Option<String>,
     pub wp2l2d_key_file: Option<String>,
     pub wp_feed_url: String,
-    pub line_pub_to: Option<String>,
-    pub line_excl_from: Option<String>,
+    pub line_native_country: String,
+    pub line_pub_to_country: Option<String>,
+    pub line_excl_from_country: Option<String>,
     pub line_lang: Option<String>,
 }
 
