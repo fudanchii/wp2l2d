@@ -1,7 +1,7 @@
 #[derive(Clone, Deserialize, Debug)]
 pub struct Config {
-    pub wp2l2d_host: String,
-    pub wp2l2d_port: String,
+    pub host: String,
+    pub port: String,
     pub wp2l2d_cert_file: Option<String>,
     pub wp2l2d_key_file: Option<String>,
     pub wp_feed_url: String,

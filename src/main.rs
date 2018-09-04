@@ -12,7 +12,7 @@ fn main() {
 
     let cfg = config::create();
 
-    let bindhost = format!("{}:{}", cfg.wp2l2d_host, cfg.wp2l2d_port);
+    let bindhost = format!("{}:{}", cfg.host, cfg.port);
 
     let apps = move || line_today_app(cfg.clone());
 
