@@ -31,7 +31,7 @@ Specify these configs as environment variables:
 
 and then run
 ```bash
-./wp2l2d
+./target/release/wp2l2d
 ```
 
 demo
