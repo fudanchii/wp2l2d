@@ -37,25 +37,13 @@ impl<'a> LineToday<'a> {
 
     fn into_xml(&'a self) -> Result<Vec<u8>, XMLError> {
         let mut writer = Writer::new_with_indent(Vec::new(), ' ' as u8, 2);
-        let channel = self.feed.borrow_channel();
 
         writer.write_event(Event::Decl(BytesDecl::new(b"1.0", Some(b"UTF-8"), None)))?;
-        writer.write_event(Event::Start(BytesStart::borrowed_name(b"articles")))?;
-
-        let uuid = self.uuid();
-        let time = self.time();
-        self.xml_tag(&mut writer, b"UUID", ChildContent::Text(&uuid))?;
-        self.xml_tag(&mut writer, b"time", ChildContent::Text(&time))?;
-
-        for idx in 0..channel.items().len() {
-            self.xml_tag(
-                &mut writer,
-                b"article",
-                ChildContent::FuncItem(Box::new(Self::article_xml), idx),
-            )?;
-        }
-
-        writer.write_event(Event::End(BytesEnd::borrowed(b"articles")))?;
+        self.xml_tag(
+            &mut writer,
+            b"articles",
+            ChildContent::Func(Box::new(Self::articles_xml)),
+        )?;
 
         Ok(writer.into_inner())
     }
@@ -146,6 +134,24 @@ impl<'a> LineToday<'a> {
 
         let end_date = self.to_datetime(item.pub_date().unwrap_or(""));
         ((end_date + Duration::days(14)).timestamp() * 1000).to_string()
+    }
+
+    fn articles_xml(&'a self, writer: &mut Writer<Vec<u8>>) -> Result<(), XMLError> {
+        let uuid = self.uuid();
+        let time = self.time();
+        let channel = self.feed.borrow_channel();
+
+        self.xml_tag(writer, b"UUID", ChildContent::Text(&uuid))?;
+        self.xml_tag(writer, b"time", ChildContent::Text(&time))?;
+
+        for idx in 0..channel.items().len() {
+            self.xml_tag(
+                writer,
+                b"article",
+                ChildContent::FuncItem(Box::new(Self::article_xml), idx),
+            )?;
+        }
+        Ok(())
     }
 
     fn article_xml(&'a self, writer: &mut Writer<Vec<u8>>, idx: usize) -> Result<(), XMLError> {
