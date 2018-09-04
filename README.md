@@ -1,4 +1,4 @@
-[WIP] wp2l2d
+wp2l2d
 ---
 
 wordpress rss feed converter to Line Today's custom XML format
