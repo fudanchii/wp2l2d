@@ -15,10 +15,11 @@ path = "src/main.rs"
 [dependencies]
 actix-web = { version = "0.7", features = ["rust-tls"] }
 atom_syndication = "0.6.0"
+chrono = "0.4"
 env_logger = "0.5"
 envy = "0.3"
 futures = "0.1"
+quick-xml = "0.12.3"
 rss = "1.5"
 serde = "1.0"
 serde_derive = "1.0"
-quick-xml = "0.12.3"
