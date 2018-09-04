@@ -2,8 +2,8 @@
 pub struct Config {
     pub host: String,
     pub port: String,
-    pub wp2l2d_cert_file: Option<String>,
-    pub wp2l2d_key_file: Option<String>,
+    pub cert_file: Option<String>,
+    pub key_file: Option<String>,
     pub wp_feed_url: String,
     pub line_native_country: String,
     pub line_pub_to_country: Option<String>,

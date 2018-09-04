@@ -21,13 +21,12 @@ how to run:
 
 Specify these configs as environment variables:
 
-- `WP2L2D_HOST` host ip for wp2l2d to bind to.
-- `WP2L2D_PORT` host port for wp2l2d to bind to.
-- `WP2L2D_CERT_FILE` (optional) cert file for ssl connection.
-- `WP2L2D_KEY_FILE` (optional) private key file for ssl connection.
+- `HOST` host ip for wp2l2d to bind to.
+- `PORT` host port for wp2l2d to bind to.
 - `WP_FEED_URL` your wordpress feed full url
-- `LINE_PUB_TO` (optional) specify comma delimited list of country id where this feed allowed to publish to
-- `LINE_EXCL_FROM` (optional) specify comma delimited list of country id where this feed should excluded from
+- `LINE_NATIVE_COUNTRY` specify origin country where the feed come from
+- `LINE_PUB_TO_COUNTRY` (optional) specify comma delimited list of country id where this feed allowed to publish to
+- `LINE_EXCL_FROM_COUNTRY` (optional) specify comma delimited list of country id where this feed should excluded from
 - `LINE_LANG` (optional) specify language in ISO 3166-1 alpha-2 if not specified, will be inferred from wordpress site
 
 and then run
