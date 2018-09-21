@@ -13,6 +13,7 @@ To build it yourself, ensure you have rust and cargo installed (we recommend usi
 then run:
 ```
 cargo install
+# or
 cargo build --release
 ```
 
