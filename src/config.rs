@@ -9,6 +9,7 @@ pub struct Config {
     pub line_pub_to_country: Option<String>,
     pub line_excl_from_country: Option<String>,
     pub line_lang: Option<String>,
+    pub publish_duration_in_weeks: Option<u8>,
 }
 
 pub fn create() -> Config {

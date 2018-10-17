@@ -132,8 +132,12 @@ impl<'a> LineToday<'a> {
         let channel = self.feed.borrow_channel();
         let item = &channel.items()[idx];
 
-        let end_date = self.to_datetime(item.pub_date().unwrap_or(""));
-        ((end_date + Duration::days(14)).timestamp() * 1000).to_string()
+        // default to 144 weeks, around 3 years
+        let duration = self.config.publish_duration_in_weeks.unwrap_or(144) as i64;
+
+        let start_date = self.to_datetime(item.pub_date().unwrap_or(""));
+
+        ((start_date + Duration::weeks(duration)).timestamp() * 1000).to_string()
     }
 
     fn articles_xml(&'a self, writer: &mut Writer<Vec<u8>>) -> Result<(), XMLError> {
