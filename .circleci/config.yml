@@ -28,3 +28,6 @@ workflows:
       - cargo-build
       - docker-image-build:
         requires: cargo-build
+        filters:
+          branches:
+            only: master
