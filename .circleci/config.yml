@@ -30,7 +30,8 @@ workflows:
             branches:
               only: /.*/
       - docker-image-build:
-          requires: cargo-build
+          requires:
+            - cargo-build
           filters:
             branches:
               only: master
