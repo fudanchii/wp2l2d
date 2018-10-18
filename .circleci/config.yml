@@ -25,7 +25,10 @@ workflows:
   version: 2
   builds:
     jobs:
-      - cargo-build
+      - cargo-build:
+        filters:
+          branches:
+            only: /.*/
       - docker-image-build:
         requires: cargo-build
         filters:
