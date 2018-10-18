@@ -22,6 +22,7 @@ jobs:
       - run: docker push quay.io/fudanchii/wp2l2d:latest
 
 workflows:
+  version: 2
   builds:
     jobs:
       - cargo-build:
