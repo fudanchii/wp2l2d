@@ -1,0 +1,30 @@
+version: 2
+jobs:
+  cargo-build:
+    docker:
+      - image: rust:slim
+    steps:
+      - checkout
+      - run: cargo build --release
+      - persist_to_workspace:
+        root: target
+        paths:
+          - release
+
+  docker-image-build:
+    machine: true
+    steps:
+      - run: mkdir -p target
+      - attach_workspace:
+        at: target
+      - run: docker build -t quay.io/fudanchii/wp2l2d:latest .
+      - run: docker login -u="${QUAY_USER}" -p="${QUAY_TOKEN}" quay.io
+      - run: docker push quay.io/fudanchii/wp2l2d:latest
+
+workflows:
+  version: 2
+  builds:
+    jobs:
+      - cargo-build
+      - docker-image-build:
+        requires: cargo-build
