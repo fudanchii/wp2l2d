@@ -14,6 +14,7 @@ jobs:
   docker-image-build:
     machine: true
     steps:
+      - checkout
       - run: mkdir -p target
       - attach_workspace:
           at: target
