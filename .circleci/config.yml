@@ -7,16 +7,16 @@ jobs:
       - checkout
       - run: cargo build --release
       - persist_to_workspace:
-        root: target
-        paths:
-          - release
+          root: target
+          paths:
+            - release
 
   docker-image-build:
     machine: true
     steps:
       - run: mkdir -p target
       - attach_workspace:
-        at: target
+          at: target
       - run: docker build -t quay.io/fudanchii/wp2l2d:latest .
       - run: docker login -u="${QUAY_USER}" -p="${QUAY_TOKEN}" quay.io
       - run: docker push quay.io/fudanchii/wp2l2d:latest
@@ -26,11 +26,11 @@ workflows:
   builds:
     jobs:
       - cargo-build:
-        filters:
-          branches:
-            only: /.*/
+          filters:
+            branches:
+              only: /.*/
       - docker-image-build:
-        requires: cargo-build
-        filters:
-          branches:
-            only: master
+          requires: cargo-build
+          filters:
+            branches:
+              only: master
