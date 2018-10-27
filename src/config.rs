@@ -13,11 +13,11 @@ pub struct Config {
 }
 
 pub fn create() -> Config {
-    ::envy::from_env::<Config>().unwrap_or_else(|msg| {
+    envy::from_env::<Config>().unwrap_or_else(|msg| {
         eprintln!(
             "{}.\nTry setting env variable for the missing field above (all caps).",
             msg
         );
-        ::std::process::exit(-1)
+        std::process::exit(-1)
     })
 }

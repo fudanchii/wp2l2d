@@ -76,8 +76,7 @@ impl<'a> LineToday<'a> {
         uuid.chars()
             .filter(|&ch| {
                 (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9')
-            })
-            .take(30)
+            }).take(30)
             .collect()
     }
 
@@ -108,8 +107,7 @@ impl<'a> LineToday<'a> {
                     indexed_title.push_str(&idx.to_string());
                     indexed_title.push_str(&channel.title());
                     &indexed_title
-                })
-                .as_bytes(),
+                }).as_bytes(),
         );
         hasher.finish().to_string()
     }

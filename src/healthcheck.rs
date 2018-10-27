@@ -55,6 +55,5 @@ pub fn report(remote_url: &str) -> Box<Future<Item = HealthReport, Error = Error
             health_report.set_response(&response);
             health_report.set_time_since(before_request);
             Ok(health_report)
-        })
-        .responder()
+        }).responder()
 }
