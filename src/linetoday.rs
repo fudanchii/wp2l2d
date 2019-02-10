@@ -1,11 +1,11 @@
+use crate::config::Config;
+use crate::wordpress::Feed;
 use actix_web::{error::ErrorInternalServerError, Error, HttpResponse};
 use chrono::{offset::Utc, DateTime, Duration};
-use config::Config;
 use quick_xml::{
     events::{BytesDecl, BytesEnd, BytesStart, BytesText, Event},
     Error as XMLError, Writer,
 };
-use wordpress::Feed;
 
 use std::boxed::Box;
 use std::collections::hash_map::DefaultHasher;
@@ -76,7 +76,8 @@ impl<'a> LineToday<'a> {
         uuid.chars()
             .filter(|&ch| {
                 (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9')
-            }).take(30)
+            })
+            .take(30)
             .collect()
     }
 
@@ -107,7 +108,8 @@ impl<'a> LineToday<'a> {
                     indexed_title.push_str(&idx.to_string());
                     indexed_title.push_str(&channel.title());
                     &indexed_title
-                }).as_bytes(),
+                })
+                .as_bytes(),
         );
         hasher.finish().to_string()
     }
@@ -157,21 +159,21 @@ impl<'a> LineToday<'a> {
     }
 
     fn article_xml(&'a self, writer: &mut Writer<Vec<u8>>, idx: usize) -> Result<(), XMLError> {
-        let article_id = self.id_for(idx);
-        let language = self.language();
+        let article_id = &self.id_for(idx);
+        let language = &self.language();
         let native_country = &self.config.line_native_country;
-        let start_pub = self.start_pub_date(idx);
-        let end_pub = self.end_pub_date(idx);
+        let start_pub = &self.start_pub_date(idx);
+        let end_pub = &self.end_pub_date(idx);
         let channel = self.feed.borrow_channel();
         let item = &channel.items()[idx];
-        let title = item.title().unwrap_or(channel.title());
-        let category = item.categories()[0].name();
-        let author = item.author().unwrap_or(channel.title());
-        let source = item.link().unwrap_or(channel.link());
+        let title = &item.title().unwrap_or(channel.title());
+        let category = &item.categories()[0].name();
+        let author = &item.author().unwrap_or(channel.title());
+        let source = &item.link().unwrap_or(channel.link());
 
-        self.xml_tag(writer, b"ID", ChildContent::Text(&article_id))?;
+        self.xml_tag(writer, b"ID", ChildContent::Text(article_id))?;
         self.xml_tag(writer, b"nativeCountry", ChildContent::Text(native_country))?;
-        self.xml_tag(writer, b"language", ChildContent::Text(&language))?;
+        self.xml_tag(writer, b"language", ChildContent::Text(language))?;
 
         if let Some(ref _p) = self.config.line_pub_to_country {
             self.xml_tag(
@@ -189,12 +191,12 @@ impl<'a> LineToday<'a> {
             )?;
         }
 
-        self.xml_tag(writer, b"startYmdtUnix", ChildContent::Text(&start_pub))?;
-        self.xml_tag(writer, b"endYmdtUnix", ChildContent::Text(&end_pub))?;
+        self.xml_tag(writer, b"startYmdtUnix", ChildContent::Text(start_pub))?;
+        self.xml_tag(writer, b"endYmdtUnix", ChildContent::Text(end_pub))?;
 
-        self.xml_tag(writer, b"title", ChildContent::Text(&title))?;
-        self.xml_tag(writer, b"category", ChildContent::Text(&category))?;
-        self.xml_tag(writer, b"publishTimeUnix", ChildContent::Text(&start_pub))?;
+        self.xml_tag(writer, b"title", ChildContent::Text(title))?;
+        self.xml_tag(writer, b"category", ChildContent::Text(category))?;
+        self.xml_tag(writer, b"publishTimeUnix", ChildContent::Text(start_pub))?;
         self.xml_tag(writer, b"contentType", ChildContent::Text("0"))?;
 
         self.xml_tag(
@@ -203,8 +205,8 @@ impl<'a> LineToday<'a> {
             ChildContent::FuncItem(Box::new(Self::content_xml), idx),
         )?;
 
-        self.xml_tag(writer, b"author", ChildContent::Text(&author))?;
-        self.xml_tag(writer, b"sourceUrl", ChildContent::Text(&source))?;
+        self.xml_tag(writer, b"author", ChildContent::Text(author))?;
+        self.xml_tag(writer, b"sourceUrl", ChildContent::Text(source))?;
 
         Ok(())
     }

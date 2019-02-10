@@ -1,4 +1,5 @@
-use futures::future::Future;
+use futures::Future;
+use serde_derive::Serialize;
 use std::time;
 
 use actix_web::{client, AsyncResponder, Error, HttpMessage, HttpRequest, HttpResponse, Responder};
@@ -55,5 +56,6 @@ pub fn report(remote_url: &str) -> Box<Future<Item = HealthReport, Error = Error
             health_report.set_response(&response);
             health_report.set_time_since(before_request);
             Ok(health_report)
-        }).responder()
+        })
+        .responder()
 }

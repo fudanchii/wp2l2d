@@ -1,3 +1,5 @@
+use serde_derive::Deserialize;
+
 #[derive(Clone, Deserialize, Debug)]
 pub struct Config {
     pub host: String,

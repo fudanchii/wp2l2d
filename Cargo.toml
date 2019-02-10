@@ -2,6 +2,7 @@
 name = "wp2l2d"
 version = "0.1.1"
 authors = ["Nurahmadie <nurahmadie@gmail.com>"]
+edition = "2018"
 
 [lib]
 name = "wp2l2d"

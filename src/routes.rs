@@ -1,8 +1,8 @@
-use config;
-use healthcheck;
-use linetoday;
+use crate::config;
+use crate::healthcheck;
+use crate::linetoday;
 
-use wordpress::Feed;
+use crate::wordpress::Feed;
 
 use actix_web::{HttpRequest, Responder};
 
