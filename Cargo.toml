@@ -1,6 +1,6 @@
 [package]
 name = "wp2l2d"
-version = "0.1.1"
+version = "0.2.0"
 authors = ["Nurahmadie <nurahmadie@gmail.com>"]
 edition = "2018"
 
@@ -14,8 +14,7 @@ path = "src/main.rs"
 
 
 [dependencies]
-actix-rt = "0"
-actix-web = { version = "1.0", features = ["rust-tls"] }
+actix-web = "1.0"
 awc = { version = "0.2", features = ["rust-tls"] }
 chrono = "0.4"
 env_logger = "0.6"
