@@ -1,8 +1,8 @@
-use futures::Future;
+use futures::future::Future;
 use serde_derive::Serialize;
 use std::time;
 
-use actix_web::{client, AsyncResponder, Error, HttpMessage, HttpRequest, HttpResponse, Responder};
+use actix_web::{Error, HttpMessage, HttpRequest, HttpResponse, Responder};
 
 #[derive(Serialize, Debug)]
 pub struct HealthReport {
@@ -14,18 +14,18 @@ pub struct HealthReport {
 }
 
 impl Responder for HealthReport {
-    type Item = HttpResponse;
     type Error = Error;
+    type Future = Result<HttpResponse, Error>;
 
-    fn respond_to<S>(self, _req: &HttpRequest<S>) -> Result<HttpResponse, Error> {
+    fn respond_to(self, _req: &HttpRequest) -> Self::Future {
         Ok(HttpResponse::Ok().json(self))
     }
 }
 
 impl HealthReport {
-    fn set_response(&mut self, response: &client::ClientResponse) {
-        self.response_code = response.status().as_u16();
-        self.response_type = response.content_type().to_string();
+    fn set_response(&mut self, status: u16, content_type: &str) {
+        self.response_code = status;
+        self.response_type = content_type.to_string();
         self.health = (self.response_code / 100) < 4;
     }
 
@@ -36,7 +36,7 @@ impl HealthReport {
     }
 }
 
-pub fn report(remote_url: &str) -> Box<Future<Item = HealthReport, Error = Error>> {
+pub fn report(remote_url: &str) -> impl Future<Item = HealthReport, Error = Error> {
     let mut health_report = HealthReport {
         url: remote_url.to_string(),
         response_code: 0,
@@ -47,15 +47,13 @@ pub fn report(remote_url: &str) -> Box<Future<Item = HealthReport, Error = Error
 
     let before_request = time::Instant::now();
 
-    client::head(remote_url)
-        .finish()
-        .unwrap()
+    awc::Client::default()
+        .head(remote_url)
         .send()
         .map_err(Error::from)
         .and_then(move |response| {
-            health_report.set_response(&response);
+            health_report.set_response(response.status().as_u16(), response.content_type());
             health_report.set_time_since(before_request);
             Ok(health_report)
         })
-        .responder()
 }

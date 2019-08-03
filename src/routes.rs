@@ -1,20 +1,23 @@
-use crate::config;
+use crate::config::Config;
 use crate::healthcheck;
 use crate::linetoday;
 
 use crate::wordpress::Feed;
 
-use actix_web::{HttpRequest, Responder};
+use futures::future::Future;
 
-pub fn ping(_req: &HttpRequest<config::Config>) -> &'static str {
+use actix_web::{web::Data, Error, HttpResponse};
+
+pub fn ping() -> &'static str {
     "pong"
 }
 
-pub fn health_report(req: &HttpRequest<config::Config>) -> impl Responder {
-    healthcheck::report(&req.state().wp_feed_url)
+pub fn health_report(
+    cfg: Data<Config>,
+) -> impl Future<Item = healthcheck::HealthReport, Error = Error> {
+    healthcheck::report(&cfg.wp_feed_url)
 }
 
-pub fn line_xml(req: &HttpRequest<config::Config>) -> impl Responder {
-    let url = &req.state().wp_feed_url;
-    linetoday::from(Feed::fetch(url)?, req.state()).build_xml()
+pub fn line_xml(cfg: Data<Config>) -> impl Future<Item = HttpResponse, Error = Error> {
+    Feed::fetch(&cfg.wp_feed_url).and_then(move |feed| linetoday::from(feed, &cfg).build_xml())
 }

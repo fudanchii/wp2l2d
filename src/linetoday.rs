@@ -269,7 +269,7 @@ impl<'a> LineToday<'a> {
     }
 }
 
-pub fn from<'l>(feed: Feed, config: &'l Config) -> LineToday {
+pub fn from<'l>(feed: Feed, config: &'l Config) -> LineToday<'l> {
     LineToday {
         feed: feed,
         config: config,
