@@ -24,11 +24,12 @@ Specify these configs as environment variables:
 
 - `HOST` host ip for wp2l2d to bind to.
 - `PORT` host port for wp2l2d to bind to.
-- `WP_FEED_URL` your wordpress feed full url
-- `LINE_NATIVE_COUNTRY` specify origin country where the feed come from
-- `LINE_PUB_TO_COUNTRY` (optional) specify comma delimited list of country id where this feed allowed to publish to
-- `LINE_EXCL_FROM_COUNTRY` (optional) specify comma delimited list of country id where this feed should excluded from
-- `LINE_LANG` (optional) specify language in ISO 3166-1 alpha-2 if not specified, will be inferred from wordpress site
+- `WP_FEED_URL` your wordpress feed full url.
+- `LINE_NATIVE_COUNTRY` specify origin country where the feed come from.
+- `LINE_PUB_TO_COUNTRY` (optional) specify comma delimited list of country id where this feed allowed to publish to.
+- `LINE_EXCL_FROM_COUNTRY` (optional) specify comma delimited list of country id where this feed should excluded from.
+- `LINE_LANG` (optional) specify language in ISO 3166-1 alpha-2 if not specified, will be inferred from wordpress site.
+- `PUBLISH_DURATION_IN_WEEKS` (optional) specify the duration in weeks of how long the article should be published in Line Today.
 
 and then run
 ```bash
