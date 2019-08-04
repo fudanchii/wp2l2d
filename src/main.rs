@@ -6,7 +6,7 @@ fn main() {
     env_logger::init();
 
     serve().unwrap_or_else(|err| {
-        eprintln!("cannot start server: {:?}", err);
+        eprintln!("Cannot start server: {:?}", err);
         std::process::exit(1)
     });
 }
