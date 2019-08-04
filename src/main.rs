@@ -5,8 +5,14 @@ use wp2l2d::{config, routes};
 fn main() {
     env_logger::init();
 
-    let cfg = config::create();
+    serve().unwrap_or_else(|err| {
+        eprintln!("cannot start server: {:?}", err);
+        std::process::exit(1)
+    });
+}
 
+fn serve() -> Result<(), std::io::Error> {
+    let cfg = config::create();
     let bindhost = format!("{}:{}", cfg.host, cfg.port);
 
     HttpServer::new(move || {
@@ -15,16 +21,8 @@ fn main() {
             .wrap(Logger::default())
             .configure(routes)
     })
-    .bind(&bindhost)
-    .unwrap_or_else(|msg| {
-        eprintln!("cannot bind to {}: {}", &bindhost, msg);
-        std::process::exit(1);
-    })
+    .bind(&bindhost)?
     .run()
-    .unwrap_or_else(|_| {
-        eprintln!("cannot run server.");
-        std::process::exit(1);
-    });
 }
 
 fn routes(cfg: &mut web::ServiceConfig) {
