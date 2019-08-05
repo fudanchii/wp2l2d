@@ -1,12 +1,9 @@
 use crate::config::Config;
 use crate::healthcheck;
 use crate::linetoday;
-
 use crate::wordpress::Feed;
-
-use futures::future::Future;
-
 use actix_web::{web::Data, Error, HttpResponse};
+use futures::future::Future;
 
 pub fn ping() -> &'static str {
     "pong"

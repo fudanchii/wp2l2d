@@ -1,5 +1,4 @@
 use actix_web::{middleware::Logger, web, App, HttpServer};
-
 use wp2l2d::{config, routes};
 
 fn main() {

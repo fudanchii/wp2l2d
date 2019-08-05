@@ -1,8 +1,7 @@
+use actix_web::{Error, HttpMessage, HttpRequest, HttpResponse, Responder};
 use futures::future::Future;
 use serde_derive::Serialize;
 use std::time;
-
-use actix_web::{Error, HttpMessage, HttpRequest, HttpResponse, Responder};
 
 #[derive(Serialize, Debug)]
 pub struct HealthReport {
