@@ -19,9 +19,9 @@ pub struct LineToday<'a> {
 enum ChildContent<'a> {
     CData(&'a str),
     Text(&'a str),
-    Func(Box<Fn(&'a LineToday<'a>, &mut Writer<Vec<u8>>) -> Result<(), XMLError> + 'a>),
+    Func(Box<dyn Fn(&'a LineToday<'a>, &mut Writer<Vec<u8>>) -> Result<(), XMLError> + 'a>),
     FuncItem(
-        Box<Fn(&'a LineToday<'a>, &mut Writer<Vec<u8>>, usize) -> Result<(), XMLError> + 'a>,
+        Box<dyn Fn(&'a LineToday<'a>, &mut Writer<Vec<u8>>, usize) -> Result<(), XMLError> + 'a>,
         usize,
     ),
 }
